@@ -13,29 +13,43 @@ pipeline {
             }
         }
 
-        stage('Install & Build Next.js') {
+        stage('Install & Build Project') {
             agent {
                 docker {
-                    image 'node:18'
+                    image 'node:20'
                     args '-u root:root'
                 }
             }
             steps {
                 sh '''
+                    set -e
                     corepack enable
 
+                    # Detect and install dependencies
                     if [ -f yarn.lock ]; then
-                        echo "Detected yarn.lock — using Yarn"
+                        echo "Using Yarn"
                         yarn install --frozen-lockfile
-                        yarn build
+                        BUILD_CMD="yarn build"
                     elif [ -f pnpm-lock.yaml ]; then
-                        echo "Detected pnpm-lock.yaml — using PNPM"
+                        echo "Using PNPM"
                         pnpm install --frozen-lockfile
-                        pnpm run build
+                        BUILD_CMD="pnpm run build"
                     else
-                        echo "Defaulting to npm"
+                        echo "Using NPM"
                         npm install
-                        npm run build
+                        BUILD_CMD="npm run build"
+                    fi
+
+                    # Detect framework
+                    if grep -q '"next"' package.json; then
+                        echo "Detected Next.js"
+                        eval "$BUILD_CMD"
+                    elif grep -q '"vite"' package.json; then
+                        echo "Detected Vite"
+                        eval "$BUILD_CMD"
+                    else
+                        echo "Detected React (CRA)"
+                        eval "$BUILD_CMD"
                     fi
                 '''
             }
@@ -43,7 +57,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE:${BUILD_NUMBER} ."
+                sh 'docker build -t $IMAGE:${BUILD_NUMBER} .'
             }
         }
 
@@ -52,7 +66,7 @@ pipeline {
                 script {
                     echo "Logging in to Docker Hub..."
                     if (sh(script: 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin', returnStatus: true) == 0) {
-                        sh "docker push $IMAGE:${BUILD_NUMBER}"
+                        sh 'docker push $IMAGE:${BUILD_NUMBER}'
                         echo "✅ Image pushed successfully!"
                     } else {
                         error("❌ Docker login failed")
@@ -64,7 +78,7 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline finished."
+            echo "Pipeline completed for project: ${env.JOB_NAME}"
         }
     }
 }

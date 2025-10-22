@@ -1,57 +1,61 @@
-# ===========================
-# Stage 1: Build Stage
-# ===========================
-FROM node:18 AS builder
+# ================================
+# Stage 1: Build stage
+# ================================
+FROM node:20 AS builder
 
+# Set working directory
 WORKDIR /app
 
-# Copy dependency files for better caching
+# Copy dependency files first (for caching)
 COPY package*.json ./
-COPY yarn.lock ./
-COPY pnpm-lock.yaml ./
-COPY .npmrc ./
+COPY yarn.lock* ./
+COPY pnpm-lock.yaml* ./
 
-# Detect and install dependencies based on available package manager
-RUN if [ -f yarn.lock ]; then \
-        corepack enable && yarn install --frozen-lockfile; \
-    elif [ -f pnpm-lock.yaml ]; then \
-        corepack enable && pnpm install --frozen-lockfile; \
-    else \
-        npm install; \
-    fi
+# Install dependencies based on package manager
+RUN corepack enable && \
+    if [ -f yarn.lock ]; then yarn install; \
+    elif [ -f pnpm-lock.yaml ]; then pnpm install; \
+    else npm install; fi
 
-# Copy the rest of the app and build
+# Copy the rest of the project
 COPY . .
-RUN if [ -f yarn.lock ]; then \
-        yarn build; \
-    elif [ -f pnpm-lock.yaml ]; then \
-        pnpm run build; \
-    else \
-        npm run build; \
-    fi
 
-# ===========================
-# Stage 2: Production Stage
-# ===========================
-FROM node:18-alpine AS runner
+# Detect framework and build
+RUN echo "Detected React/Next/Vite project" && \
+    if [ -f yarn.lock ]; then yarn build; \
+    elif [ -f pnpm-lock.yaml ]; then pnpm run build; \
+    else npm run build; fi
+
+
+# ================================
+# Stage 2: Production stage
+# ================================
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 ENV NODE_ENV=production
+EXPOSE 3000
 
-# Copy build output from builder
+# Copy package files
+COPY --from=builder /app/package*.json ./
+
+# Copy only existing build outputs (Next.js)
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/next.config.* ./
+COPY --from=builder /app/next.config.mjs ./ 
 
-# Install only production dependencies
-RUN if [ -f yarn.lock ]; then \
-        corepack enable && yarn install --production --frozen-lockfile; \
+# Install production dependencies (supports npm, yarn, pnpm)
+RUN corepack enable && \
+    if [ -f yarn.lock ]; then \
+        echo "Using Yarn"; \
+        yarn install --production --frozen-lockfile; \
     elif [ -f pnpm-lock.yaml ]; then \
-        corepack enable && pnpm install --prod --frozen-lockfile; \
+        echo "Using PNPM"; \
+        pnpm install --prod --frozen-lockfile; \
     else \
-        npm install --omit=dev; \
+        echo "Using NPM"; \
+        npm install --omit=dev --legacy-peer-deps; \
     fi
 
-EXPOSE 3000
-CMD ["npm", "run", "start"]
+# Default command
+CMD ["npm", "start"]
