@@ -1,0 +1,110 @@
+[
+  {
+    "id": "1",
+    "name": "Radiance Serum",
+    "price": 68.0,
+    "category": "skincare",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "A lightweight, fast-absorbing serum that brightens and evens skin tone with vitamin C and hyaluronic acid.",
+    "ingredients": ["Vitamin C", "Hyaluronic Acid", "Niacinamide", "Peptides"]
+  },
+  {
+    "id": "2",
+    "name": "Velvet Matte Lipstick",
+    "price": 32.0,
+    "category": "makeup",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Long-lasting matte lipstick with a velvety smooth finish. Enriched with vitamin E for soft, hydrated lips.",
+    "ingredients": ["Vitamin E", "Shea Butter", "Jojoba Oil"]
+  },
+  {
+    "id": "3",
+    "name": "Rose Garden Perfume",
+    "price": 95.0,
+    "category": "fragrance",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "A romantic floral fragrance with notes of Bulgarian rose, jasmine, and white musk.",
+    "ingredients": ["Bulgarian Rose", "Jasmine", "White Musk", "Bergamot"]
+  },
+  {
+    "id": "4",
+    "name": "Hydrating Face Cream",
+    "price": 54.0,
+    "category": "skincare",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Rich, nourishing cream that deeply hydrates and restores skin's natural barrier.",
+    "ingredients": ["Ceramides", "Squalane", "Glycerin", "Peptides"]
+  },
+  {
+    "id": "5",
+    "name": "Luminous Foundation",
+    "price": 48.0,
+    "category": "makeup",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Buildable coverage foundation with a natural, luminous finish. SPF 30 protection.",
+    "ingredients": ["SPF 30", "Hyaluronic Acid", "Vitamin E"]
+  },
+  {
+    "id": "6",
+    "name": "Gentle Cleansing Oil",
+    "price": 42.0,
+    "category": "skincare",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Luxurious oil cleanser that melts away makeup and impurities while nourishing skin.",
+    "ingredients": ["Jojoba Oil", "Vitamin E", "Chamomile Extract"]
+  },
+  {
+    "id": "7",
+    "name": "Silk Eyeshadow Palette",
+    "price": 58.0,
+    "category": "makeup",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "12 highly pigmented shades in matte and shimmer finishes for endless eye looks.",
+    "ingredients": ["Mica", "Vitamin E", "Jojoba Oil"]
+  },
+  {
+    "id": "8",
+    "name": "Citrus Bloom Eau de Toilette",
+    "price": 72.0,
+    "category": "fragrance",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Fresh and uplifting fragrance with notes of bergamot, neroli, and white tea.",
+    "ingredients": ["Bergamot", "Neroli", "White Tea", "Amber"]
+  },
+  {
+    "id": "9",
+    "name": "Overnight Recovery Mask",
+    "price": 62.0,
+    "category": "skincare",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Intensive overnight treatment that repairs and rejuvenates skin while you sleep.",
+    "ingredients": ["Retinol", "Peptides", "Niacinamide", "Ceramides"]
+  },
+  {
+    "id": "10",
+    "name": "Cream Blush Stick",
+    "price": 28.0,
+    "category": "makeup",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Creamy, blendable blush stick for a natural, healthy flush of color.",
+    "ingredients": ["Vitamin E", "Shea Butter", "Coconut Oil"]
+  },
+  {
+    "id": "11",
+    "name": "Exfoliating Toner",
+    "price": 38.0,
+    "category": "skincare",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Gentle exfoliating toner with AHAs and BHAs to refine pores and smooth texture.",
+    "ingredients": ["Glycolic Acid", "Salicylic Acid", "Witch Hazel", "Aloe Vera"]
+  },
+  {
+    "id": "12",
+    "name": "Vanilla Orchid Body Mist",
+    "price": 35.0,
+    "category": "fragrance",
+    "image": "/placeholder.svg?height=400&width=400",
+    "description": "Light, refreshing body mist with warm vanilla and exotic orchid notes.",
+    "ingredients": ["Vanilla Extract", "Orchid", "Coconut", "Sandalwood"]
+  }
+]
